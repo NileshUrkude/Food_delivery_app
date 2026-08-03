@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block title %}
+
+    Restaurant | FoodDelivery
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container py-5">
+
+
+    <!-- Restaurant Information -->
+
+    <div
+        id="restaurant-info"
+        class="mb-5"
+    >
+
+        <div class="text-center">
+
+            <div
+                class="spinner-border text-primary"
+            ></div>
+
+            <p class="mt-2">
+                Loading restaurant...
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Food Menu -->
+
+    <section>
+
+        <h2 class="mb-4">
+            Menu
+        </h2>
+
+
+        <div
+            id="food-list"
+            class="row g-4"
+        >
+
+            <div
+                class="col-12 text-center"
+            >
+
+                <div
+                    class="spinner-border text-primary"
+                ></div>
+
+                <p class="mt-2">
+                    Loading menu...
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Reviews -->
+
+    <section
+        class="mt-5"
+    >
+
+        <div
+            class="d-flex
+                   justify-content-between
+                   align-items-center
+                   mb-4"
+        >
+
+            <h2>
+                Customer Reviews
+            </h2>
+
+        </div>
+
+
+        <div
+            id="review-list"
+        >
+
+            <div class="text-center">
+
+                <div
+                    class="spinner-border
+                           text-primary"
+                ></div>
+
+                <p class="mt-2">
+                    Loading reviews...
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+    const RESTAURANT_ID =
+        {{ restaurant_id }};
+
+</script>
+
+
+<script
+    src="{% static 'js/restaurant.js' %}"
+></script>
+
+
+<script
+    src="{% static 'js/reviews.js' %}"
+></script>
+
+{% endblock %}

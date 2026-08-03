@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block title %}
+
+    Order Details | FoodDelivery
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container py-5">
+
+
+    <div
+        id="order-detail"
+    >
+
+       <div
+            class="modal fade"
+            id="reviewModal"
+            tabindex="-1"
+            aria-hidden="true"
+        >
+
+            <div
+                class="modal-dialog"
+            >
+
+                <div
+                    class="modal-content"
+                >
+
+                    <div
+                        class="modal-header"
+                    >
+
+                        <h5
+                            class="modal-title"
+                        >
+                            Write a Review
+                        </h5>
+
+
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                        ></button>
+
+                    </div>
+
+
+                    <div
+                        class="modal-body"
+                    >
+
+                        <div
+                            id="review-message"
+                            class="alert d-none"
+                        ></div>
+
+
+                        <form
+                            id="review-form"
+                        >
+
+                            <input
+                                type="hidden"
+                                id="review-food-item"
+                            >
+
+
+                            <div
+                                class="mb-3"
+                            >
+
+                                <label
+                                    for="review-rating"
+                                    class="form-label"
+                                >
+                                    Rating
+                                </label>
+
+
+                                <select
+                                    id="review-rating"
+                                    class="form-select"
+                                    required
+                                >
+
+                                    <option
+                                        value=""
+                                    >
+                                        Select Rating
+                                    </option>
+
+                                    <option
+                                        value="1"
+                                    >
+                                        1 - Very Bad
+                                    </option>
+
+                                    <option
+                                        value="2"
+                                    >
+                                        2 - Bad
+                                    </option>
+
+                                    <option
+                                        value="3"
+                                    >
+                                        3 - Average
+                                    </option>
+
+                                    <option
+                                        value="4"
+                                    >
+                                        4 - Good
+                                    </option>
+
+                                    <option
+                                        value="5"
+                                    >
+                                        5 - Excellent
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div
+                                class="mb-3"
+                            >
+
+                                <label
+                                    for="review-comment"
+                                    class="form-label"
+                                >
+                                    Comment
+                                </label>
+
+
+                                <textarea
+                                    id="review-comment"
+                                    class="form-control"
+                                    rows="4"
+                                    required
+                                ></textarea>
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                id="submit-review-button"
+                                class="btn btn-primary w-100"
+                            >
+                                Submit Review
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+    const ORDER_ID =
+        {{ order_id }};
+
+</script>
+
+
+<script
+    src="{% static 'js/orders.js' %}"
+></script>
+
+{% endblock %}
