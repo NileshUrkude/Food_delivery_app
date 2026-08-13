@@ -31,5 +31,5 @@ urlpatterns = [
     path("api/reviews/",include("apps.reviews.urls")),
 
     # Frontend
-    path("",include("frontend.urls"))
+    path("", include("frontend.urls")),
 ]

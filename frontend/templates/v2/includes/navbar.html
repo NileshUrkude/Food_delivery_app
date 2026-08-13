@@ -1,0 +1,72 @@
+<nav class="navbar navbar-expand-lg navbar-dark navbar-v2 sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'frontend:home' %}">
+            <span>🍕 FoodDelivery</span>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse" id="mainNavbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 main-nav">
+                <li class="nav-item d-lg-none">
+                    <button type="button" class="nav-link btn btn-link text-start w-100" data-location-trigger>
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <span data-location-label>Select location</span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-menu-link" href="{% url 'frontend:home' %}" data-nav="home">
+                        <i class="bi bi-house-door"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-menu-link" href="{% url 'frontend:home' %}#restaurants" data-nav="restaurants">
+                        <i class="bi bi-shop"></i> Restaurants
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-menu-link d-flex align-items-center gap-1" href="{% url 'frontend:cart-detail' %}" data-nav="cart">
+                        <i class="bi bi-cart3"></i> Cart
+                        <span id="cart-count" class="badge bg-danger d-none">0</span>
+                    </a>
+                </li>
+                <li class="nav-item auth-only d-none">
+                    <a class="nav-link nav-menu-link" href="{% url 'frontend:order-list' %}" data-nav="orders">
+                        <i class="bi bi-bag-check"></i> My Orders
+                    </a>
+                </li>
+                <li class="nav-item auth-only d-none">
+                    <a class="nav-link nav-menu-link" href="{% url 'frontend:profile' %}" data-nav="profile">
+                        <i class="bi bi-person"></i> Profile
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ms-lg-auto align-items-lg-center gap-lg-1 user-nav">
+                <li class="nav-item d-none d-lg-block">
+                    <button type="button" class="btn btn-outline-light btn-sm location-nav-btn" data-location-trigger>
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <span data-location-label>Select location</span>
+                    </button>
+                </li>
+                <li class="nav-item guest-only">
+                    <a class="nav-link nav-menu-link" href="{% url 'frontend:login' %}" data-nav="login">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a>
+                </li>
+                <li class="nav-item guest-only">
+                    <a class="btn btn-primary btn-sm ms-lg-1" href="{% url 'frontend:register' %}">
+                        Register
+                    </a>
+                </li>
+                <li class="nav-item auth-only d-none">
+                    <button id="logout-button" type="button" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

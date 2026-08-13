@@ -1,19 +1,22 @@
-from rest_framework import generics, serializers, filters
+from collections import defaultdict
+
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from apps.users.permissions import IsRestaurantOwner
-from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Restaurant
 from .serializers import (
-    RestaurantSerializer,
+    RestaurantDetailSerializer,
     RestaurantListSerializer,
-    RestaurantDetailSerializer
+    RestaurantSerializer,
 )
 
-class RestaurantCreateView(
-    generics.CreateAPIView
-):
+
+class RestaurantCreateView(generics.CreateAPIView):
 
     serializer_class = RestaurantSerializer
 
@@ -22,26 +25,17 @@ class RestaurantCreateView(
         IsRestaurantOwner,
     ]
 
-    def perform_create(
-        self,
-        serializer,
-    ):
+    def perform_create(self, serializer):
 
-        if hasattr(
-            self.request.user,
-            "restaurant",
-        ):
+        if hasattr(self.request.user, "restaurant"):
             raise serializers.ValidationError(
                 "Restaurant already exists."
             )
 
-        serializer.save(
-            owner=self.request.user,
-        )
+        serializer.save(owner=self.request.user)
 
-class MyRestaurantView(
-    generics.RetrieveUpdateAPIView
-):
+
+class MyRestaurantView(generics.RetrieveUpdateAPIView):
 
     serializer_class = RestaurantSerializer
 
@@ -65,13 +59,10 @@ class MyRestaurantView(
                 }
             )
 
-class RestaurantListView(
-    generics.ListAPIView
-):
 
-    serializer_class = (
-        RestaurantListSerializer
-    )
+class RestaurantListView(generics.ListAPIView):
+
+    serializer_class = RestaurantListSerializer
 
     permission_classes = []
 
@@ -108,13 +99,43 @@ class RestaurantListView(
             is_active=True
         )
 
-class RestaurantDetailView(
-    generics.RetrieveAPIView
-):
 
-    serializer_class = (
-        RestaurantDetailSerializer
-    )
+class RestaurantLocationsView(APIView):
+
+    permission_classes = []
+
+    def get(self, request):
+
+        rows = (
+            Restaurant.objects
+            .filter(is_active=True)
+            .values("state", "city")
+            .distinct()
+            .order_by("state", "city")
+        )
+
+        state_map = defaultdict(set)
+
+        for row in rows:
+            state = row["state"]
+            city = row["city"]
+            if state and city:
+                state_map[state].add(city)
+
+        locations = [
+            {
+                "state": state,
+                "cities": sorted(cities),
+            }
+            for state, cities in sorted(state_map.items())
+        ]
+
+        return Response({"locations": locations})
+
+
+class RestaurantDetailView(generics.RetrieveAPIView):
+
+    serializer_class = RestaurantDetailSerializer
 
     permission_classes = []
 

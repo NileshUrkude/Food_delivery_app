@@ -1,0 +1,21 @@
+{% extends "v2/base.html" %}
+{% load static %}
+
+{% block title %}My Cart | FoodDelivery{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="h3 mb-4">My Cart</h1>
+    <div id="cart-message" class="alert d-none" role="alert"></div>
+    <div id="cart-container">
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2 text-muted">Loading cart...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'v2/js/pages/cart.js' %}"></script>
+{% endblock %}

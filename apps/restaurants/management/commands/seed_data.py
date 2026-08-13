@@ -103,6 +103,30 @@ class Command(
                 "last_name": "Owner",
             },
 
+            {
+                "email": "mumbai@example.com",
+                "first_name": "Mumbai",
+                "last_name": "Owner",
+            },
+
+            {
+                "email": "nagpur@example.com",
+                "first_name": "Nagpur",
+                "last_name": "Owner",
+            },
+
+            {
+                "email": "jaipur@example.com",
+                "first_name": "Jaipur",
+                "last_name": "Owner",
+            },
+
+            {
+                "email": "udaipur@example.com",
+                "first_name": "Udaipur",
+                "last_name": "Owner",
+            },
+
         ]
 
 
@@ -198,41 +222,108 @@ class Command(
 
         restaurants = [
 
+            # Maharashtra — Pune
             {
                 "name": "Pizza Palace",
-                "description": "Fresh Italian Pizza",
-                "owner": self.owners[0],
+                "description": "Fresh Italian pizza and pasta",
+                "owner_email": "pizza@example.com",
+                "city": "Pune",
+                "state": "Maharashtra",
+                "postal_code": "411001",
+                "address": "FC Road, Pune",
             },
-
             {
                 "name": "Burger House",
-                "description": "Best Burgers",
-                "owner": self.owners[1],
+                "description": "Juicy burgers and crispy fries",
+                "owner_email": "burger@example.com",
+                "city": "Pune",
+                "state": "Maharashtra",
+                "postal_code": "411038",
+                "address": "Koregaon Park, Pune",
             },
 
+            # Maharashtra — Mumbai
+            {
+                "name": "Mumbai Masala",
+                "description": "Street-style Mumbai flavours",
+                "owner_email": "mumbai@example.com",
+                "city": "Mumbai",
+                "state": "Maharashtra",
+                "postal_code": "400001",
+                "address": "Colaba, Mumbai",
+            },
+
+            # Maharashtra — Nagpur
+            {
+                "name": "Nagpur Spice Kitchen",
+                "description": "Authentic Vidarbha cuisine",
+                "owner_email": "nagpur@example.com",
+                "city": "Nagpur",
+                "state": "Maharashtra",
+                "postal_code": "440001",
+                "address": "Sitabuldi, Nagpur",
+            },
+
+            # Rajasthan — Jaipur
+            {
+                "name": "Jaipur Royals",
+                "description": "Royal Rajasthani thali and curries",
+                "owner_email": "jaipur@example.com",
+                "city": "Jaipur",
+                "state": "Rajasthan",
+                "postal_code": "302001",
+                "address": "MI Road, Jaipur",
+            },
+
+            # Rajasthan — Udaipur
+            {
+                "name": "Lake View Cafe",
+                "description": "Scenic lakeside dining in Udaipur",
+                "owner_email": "udaipur@example.com",
+                "city": "Udaipur",
+                "state": "Rajasthan",
+                "postal_code": "313001",
+                "address": "Lake Pichola Road, Udaipur",
+            },
+
+            # Keep legacy Pune restaurants for existing demo orders
             {
                 "name": "Spice Garden",
-                "description": "Indian Food",
-                "owner": self.owners[2],
+                "description": "North and South Indian food",
+                "owner_email": "spice@example.com",
+                "city": "Pune",
+                "state": "Maharashtra",
+                "postal_code": "411004",
+                "address": "Camp Area, Pune",
             },
-
             {
                 "name": "Biryani Hub",
-                "description": "Delicious Biryani",
-                "owner": self.owners[3],
+                "description": "Hyderabadi and Mughlai biryani",
+                "owner_email": "biryani@example.com",
+                "city": "Pune",
+                "state": "Maharashtra",
+                "postal_code": "411006",
+                "address": "SB Road, Pune",
             },
 
         ]
 
+        owner_by_email = {
+            owner.email: owner
+            for owner in self.owners
+        }
 
         self.restaurant_map = {}
 
-
         for restaurant_data in restaurants:
+
+            owner = owner_by_email[
+                restaurant_data["owner_email"]
+            ]
 
             restaurant, created = Restaurant.objects.get_or_create(
 
-                owner=restaurant_data["owner"],
+                owner=owner,
 
                 defaults={
 
@@ -246,19 +337,19 @@ class Command(
                         "9876543210",
 
                     "email":
-                        restaurant_data["owner"].email,
+                        owner.email,
 
                     "address":
-                        "MG Road",
+                        restaurant_data["address"],
 
                     "city":
-                        "Pune",
+                        restaurant_data["city"],
 
                     "state":
-                        "Maharashtra",
+                        restaurant_data["state"],
 
                     "postal_code":
-                        "411001",
+                        restaurant_data["postal_code"],
 
                     "opening_time":
                         time(9, 0),
@@ -273,84 +364,110 @@ class Command(
 
             )
 
+            if not created:
+                Restaurant.objects.filter(pk=restaurant.pk).update(
+                    city=restaurant_data["city"],
+                    state=restaurant_data["state"],
+                    address=restaurant_data["address"],
+                    postal_code=restaurant_data["postal_code"],
+                )
+
             self.restaurant_map[
                 restaurant.name
             ] = restaurant
 
-
-            category, _ = MenuCategory.objects.get_or_create(
-
-                restaurant=restaurant,
-
-                name="Main Course",
-
-                defaults={
-
-                    "description":
-                        "Main Food Items",
-
-                },
-
-            )
-
-
-            food_items = [
-
-                (
-                    "Special Item 1",
-                    199,
-                ),
-
-                (
-                    "Special Item 2",
-                    249,
-                ),
-
-                (
-                    "Special Item 3",
-                    299,
-                ),
-
-            ]
-
-
-            for name, price in food_items:
-
-                FoodItem.objects.get_or_create(
-
-                    restaurant=restaurant,
-
-                    category=category,
-
-                    name=name,
-
-                    defaults={
-
-                        "description":
-                            name,
-
-                        "price":
-                            price,
-
-                        "food_type":
-                            FoodItem.FoodType.VEG,
-
-                        "preparation_time":
-                            20,
-
-                        "is_available":
-                            True,
-
-                    },
-
-                )
-
+            self._create_menu_for_restaurant(restaurant)
 
         self.stdout.write(
             self.style.SUCCESS(
                 "Restaurants, Categories & Food Items created."
             )
         )
+
+    def _create_menu_for_restaurant(
+        self,
+        restaurant,
+    ):
+
+        veg_category, _ = MenuCategory.objects.get_or_create(
+            restaurant=restaurant,
+            name="Vegetarian",
+            defaults={
+                "description": "Pure vegetarian dishes",
+            },
+        )
+
+        nonveg_category, _ = MenuCategory.objects.get_or_create(
+            restaurant=restaurant,
+            name="Non-Vegetarian",
+            defaults={
+                "description": "Non-vegetarian dishes",
+            },
+        )
+
+        veg_items = [
+            (
+                "Paneer Butter Masala",
+                "Creamy tomato curry with soft paneer",
+                249,
+            ),
+            (
+                "Veg Biryani",
+                "Fragrant basmati rice with mixed vegetables",
+                199,
+            ),
+            (
+                "Dal Tadka",
+                "Yellow lentils tempered with garlic and spices",
+                149,
+            ),
+        ]
+
+        nonveg_items = [
+            (
+                "Chicken Biryani",
+                "Aromatic rice with tender chicken pieces",
+                299,
+            ),
+            (
+                "Butter Chicken",
+                "Classic creamy tomato chicken curry",
+                279,
+            ),
+            (
+                "Egg Curry",
+                "Boiled eggs in spicy onion-tomato gravy",
+                199,
+            ),
+        ]
+
+        for name, description, price in veg_items:
+            FoodItem.objects.get_or_create(
+                restaurant=restaurant,
+                category=veg_category,
+                name=name,
+                defaults={
+                    "description": description,
+                    "price": price,
+                    "food_type": FoodItem.FoodType.VEG,
+                    "preparation_time": 20,
+                    "is_available": True,
+                },
+            )
+
+        for name, description, price in nonveg_items:
+            FoodItem.objects.get_or_create(
+                restaurant=restaurant,
+                category=nonveg_category,
+                name=name,
+                defaults={
+                    "description": description,
+                    "price": price,
+                    "food_type": FoodItem.FoodType.NON_VEG,
+                    "preparation_time": 25,
+                    "is_available": True,
+                },
+            )
 
     def create_coupons(
         self

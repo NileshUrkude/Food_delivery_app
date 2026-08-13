@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from rest_framework import serializers
 
 from .models import (
@@ -49,6 +51,9 @@ class OrderSerializer(
             "id",
             "restaurant",
             "status",
+            "subtotal",
+            "discount_amount",
+            "coupon_code",
             "total_amount",
             "items",
             "created_at",
@@ -56,4 +61,20 @@ class OrderSerializer(
         )
 
         read_only_fields = fields
+
+
+class OrderCreateSerializer(serializers.Serializer):
+    """Optional coupon on checkout — orders can be placed without one."""
+
+    coupon_code = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        allow_null=True,
+    )
+
+    def validate_coupon_code(self, value):
+        if not value:
+            return None
+        cleaned = value.strip().upper()
+        return cleaned or None
 

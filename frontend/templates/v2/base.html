@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodDelivery — Order delicious food from your favourite restaurants.">
+    <title>{% block title %}FoodDelivery{% endblock %}</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="{% static 'v2/css/base.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    {% include "v2/includes/navbar.html" %}
+
+    <main class="flex-grow-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include "v2/includes/footer.html" %}
+
+    <!-- Location picker modal (available on all pages) -->
+    <div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title h5" id="locationModalLabel">
+                        <i class="bi bi-geo-alt-fill text-primary"></i> Select Delivery Location
+                    </h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small">Choose your state and city to see restaurants available for delivery.</p>
+                    <div class="mb-3">
+                        <label for="location-state" class="form-label">State</label>
+                        <select id="location-state" class="form-select">
+                            <option value="">Select state</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="location-city" class="form-label">City</label>
+                        <select id="location-city" class="form-select" disabled>
+                            <option value="">Select city</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="location-apply-btn" class="btn btn-primary">Show Restaurants</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core JS -->
+    <script src="{% static 'v2/js/core/config.js' %}"></script>
+    <script src="{% static 'v2/js/core/dom.js' %}"></script>
+    <script src="{% static 'v2/js/core/api.js' %}"></script>
+    <script src="{% static 'v2/js/core/toast.js' %}"></script>
+    <script src="{% static 'v2/js/core/location.js' %}"></script>
+    <script src="{% static 'v2/js/core/auth.js' %}"></script>
+    <script src="{% static 'v2/js/core/navbar.js' %}"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

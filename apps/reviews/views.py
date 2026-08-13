@@ -1,6 +1,6 @@
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from apps.orders.models import OrderItem
 from .models import Review
 from .serializers import ReviewSerializer
@@ -68,7 +68,7 @@ class FoodItemReviewListView(
     )
 
     permission_classes = [
-        IsAuthenticated,
+        AllowAny,
     ]
 
     def get_queryset(

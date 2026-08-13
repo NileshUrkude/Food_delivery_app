@@ -1,0 +1,63 @@
+{% extends "v2/base.html" %}
+
+{% block title %}Register | FoodDelivery{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
+                    <h1 class="h3 text-center mb-4">Create Account</h1>
+
+                    <div id="register-message" class="alert d-none" role="alert"></div>
+
+                    <form id="register-form" novalidate>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="register-email" class="form-label">Email</label>
+                                <input type="email" id="register-email" class="form-control" required autocomplete="email">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="register-first-name" class="form-label">First Name</label>
+                                <input type="text" id="register-first-name" class="form-control" autocomplete="given-name">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="register-last-name" class="form-label">Last Name</label>
+                                <input type="text" id="register-last-name" class="form-control" autocomplete="family-name">
+                            </div>
+                            <div class="col-12">
+                                <label for="register-phone-number" class="form-label">Phone Number</label>
+                                <input type="tel" id="register-phone-number" class="form-control" autocomplete="tel">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="register-password" class="form-label">Password</label>
+                                <input type="password" id="register-password" class="form-control" minlength="8" required autocomplete="new-password">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="register-confirm-password" class="form-label">Confirm Password</label>
+                                <input type="password" id="register-confirm-password" class="form-control" minlength="8" required autocomplete="new-password">
+                            </div>
+                            <div class="col-12">
+                                <label for="register-role" class="form-label">Register As</label>
+                                <select id="register-role" class="form-select">
+                                    <option value="customer" selected>Customer</option>
+                                    <option value="restaurant_owner">Restaurant Owner</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" id="register-button" class="btn btn-primary w-100">Register</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <p class="text-center mt-4 mb-0 small">
+                        Already have an account?
+                        <a href="{% url 'frontend:login' %}">Login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

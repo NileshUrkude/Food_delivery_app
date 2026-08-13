@@ -1,0 +1,21 @@
+{% extends "v2/base.html" %}
+{% load static %}
+
+{% block title %}My Orders | FoodDelivery{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="h3 mb-4">My Orders</h1>
+    <div id="orders-message" class="alert d-none" role="alert"></div>
+    <div id="orders-list">
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2 text-muted">Loading orders...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'v2/js/pages/orders.js' %}"></script>
+{% endblock %}

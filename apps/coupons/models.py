@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.db import models
 from django.utils import timezone
 
@@ -117,6 +119,8 @@ class Coupon(models.Model):
         self,
         order_amount,
     ):
+
+        order_amount = Decimal(str(order_amount))
 
         if not self.is_valid_for_order(
             order_amount

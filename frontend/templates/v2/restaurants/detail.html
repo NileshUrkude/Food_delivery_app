@@ -1,0 +1,40 @@
+{% extends "v2/base.html" %}
+{% load static %}
+
+{% block title %}Restaurant | FoodDelivery{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div id="restaurant-info" class="mb-5">
+        <div class="text-center py-4">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2 text-muted">Loading restaurant...</p>
+        </div>
+    </div>
+
+    <section class="mb-5">
+        <h2 class="h4 mb-4">Menu</h2>
+        <div id="food-list">
+            <div class="text-center py-4">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-2 text-muted">Loading menu...</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="h4 mb-4">Customer Reviews</h2>
+        <div id="review-list">
+            <div class="text-center py-4">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-2 text-muted">Loading reviews...</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>const RESTAURANT_ID = {{ restaurant_id }};</script>
+<script src="{% static 'v2/js/pages/restaurant.js' %}"></script>
+{% endblock %}

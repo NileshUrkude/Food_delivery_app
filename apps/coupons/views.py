@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.utils import timezone
 
 from rest_framework import generics
@@ -65,8 +67,8 @@ class CouponValidateView(
 
         try:
 
-            order_amount = float(
-                order_amount
+            order_amount = Decimal(
+                str(order_amount)
             )
 
         except (

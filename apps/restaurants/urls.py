@@ -3,8 +3,9 @@ from django.urls import path
 from .views import (
     MyRestaurantView,
     RestaurantCreateView,
-    RestaurantListView,
     RestaurantDetailView,
+    RestaurantListView,
+    RestaurantLocationsView,
 )
 
 app_name = "restaurants"
@@ -17,6 +18,12 @@ urlpatterns = [
         "",
         RestaurantListView.as_view(),
         name="restaurant-list",
+    ),
+
+    path(
+        "locations/",
+        RestaurantLocationsView.as_view(),
+        name="restaurant-locations",
     ),
 
     path(

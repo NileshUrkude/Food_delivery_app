@@ -19,6 +19,7 @@ from .models import (
 )
 
 from .serializers import (
+    OrderCreateSerializer,
     OrderSerializer,
 )
 
@@ -44,6 +45,19 @@ class OrderCreateView(
     ):
 
         user = request.user
+
+        create_serializer = OrderCreateSerializer(
+            data=request.data
+        )
+        create_serializer.is_valid(
+            raise_exception=True
+        )
+
+        validated_coupon_code = (
+            create_serializer.validated_data.get(
+                "coupon_code"
+            )
+        )
 
         # ==========================================
         # GET CART
@@ -133,20 +147,6 @@ class OrderCreateView(
                     }
                 )
 
-            if (
-                cart_item.quantity
-                > food_item.stock
-            ):
-
-                raise ValidationError(
-                    {
-                        "cart": (
-                            f"Insufficient stock "
-                            f"for {food_item.name}."
-                        )
-                    }
-                )
-
             subtotal += (
                 food_item.price
                 * cart_item.quantity
@@ -160,9 +160,7 @@ class OrderCreateView(
 
         discount_amount = 0
 
-        coupon_code = request.data.get(
-            "coupon_code"
-        )
+        coupon_code = validated_coupon_code
 
         if coupon_code:
 
@@ -273,16 +271,6 @@ class OrderCreateView(
                     food_item.price
                     * cart_item.quantity
                 ),
-            )
-
-            food_item.stock -= (
-                cart_item.quantity
-            )
-
-            food_item.save(
-                update_fields=[
-                    "stock",
-                ]
             )
 
         # ==========================================
