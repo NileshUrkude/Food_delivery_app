@@ -552,6 +552,19 @@ class OrderCancelView(
         "post",
     ]
 
+    def post(
+        self,
+        request,
+        *args,
+        **kwargs,
+    ):
+
+        return self.update(
+            request,
+            *args,
+            **kwargs,
+        )
+
     def get_queryset(
         self,
     ):
