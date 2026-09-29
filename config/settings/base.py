@@ -12,7 +12,7 @@ load_dotenv(BASE_DIR / ".env")
 # SECRET_KEY = 'django-insecure-y_yg=f+kxhkmodp6r25w$k@9kbw3pl65m!gkpm=kle_-jg2ehk'
 
 SECRET_KEY = os.getenv(
-    "django-insecure-y_yg=f+kxhkmodp6r25w$k@9kbw3pl65m!gkpm=kle_-jg2ehk",
+    "SECRET_KEY",
     "django-insecure-development-key"
 )
 
