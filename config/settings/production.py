@@ -1,6 +1,7 @@
 from .base import *
 
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 
 DEBUG = False
 
@@ -18,8 +19,15 @@ CSRF_TRUSTED_ORIGINS = [
     if origin.strip()
 ]
 
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise ImproperlyConfigured(
+        "DATABASE_URL must be set to the Render PostgreSQL connection URL."
+    )
+
 DATABASES = {
-    "default": dj_database_url.config(
+    "default": dj_database_url.parse(
+        DATABASE_URL,
         conn_max_age=600,
         ssl_require=True,
     ),
