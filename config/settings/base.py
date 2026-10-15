@@ -9,7 +9,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 load_dotenv(BASE_DIR / ".env")
 
-# SECRET_KEY = 'django-insecure-y_yg=f+kxhkmodp6r25w$k@9kbw3pl65m!gkpm=kle_-jg2ehk'
 
 SECRET_KEY = os.getenv(
     "SECRET_KEY",
@@ -32,6 +31,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework_simplejwt.token_blacklist",
+
 
     # Third-party apps
     "rest_framework",
